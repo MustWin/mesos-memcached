@@ -7,6 +7,8 @@ This framework is an early implementation of an autoscaling memcache cluster.
 The executor starts memcache containers using docker and monitors their CPU and memory usage.
 When either metric passes a given threshold, a new container is allocated by the scheduler.
 
+For now, the list of allocated memcached services is exposed on scheduler_box:10001
+
 To prevent totally destroying your cache, the rate that new memcached servers are allocated is throttled.
 
 = Build it
@@ -36,9 +38,10 @@ Watch your memcache containers allocate themselves automagically as the memory g
 = Future work
 
 * Add more parameters to the scheduler so you can fiddle with the knobs without editing source code.
-* Integrate with something like https://github.com/facebook/mcrouter
+* Integrate with something like https://github.com/facebook/mcrouter to improve cache transitions
 * Production readiness: 
 ** A memcached container that doesn't cap out at 64mb
+** Better service discovery
 ** Monitor the state of the running docker containers, sample code:
 
 cmd := exec.Command("sleep", "2")
